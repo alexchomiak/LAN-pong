@@ -3,7 +3,7 @@
 # * File Created: Friday, 22nd November 2019 5:12:15 pm
 # * Author: Alex Chomiak 
 # * 
-# * Last Modified: Friday, 22nd November 2019 6:07:12 pm
+# * Last Modified: Friday, 22nd November 2019 8:15:14 pm
 # * Modified By: Alex Chomiak 
 # * 
 # * Author Github: https://github.com/alexchomiak
@@ -14,25 +14,41 @@ import math
 from colors import BLACK, WHITE
 class Player (pygame.sprite.Sprite):
     def __init__(self, y_pos, name):
+        # * Initialize sprite
         super().__init__()
+
+        # * Set Name 
         self.name = name
-        self.width = 75
-        self.height = 15
+
+        # * Set dimensions of rectangle
+        self.width = 100
+        self.height = 20
+
+        # * Initialize Surface Texture For Sprite
         self.image = pygame.Surface([self.width, self.height])
+        
+        # * Fill sprite with white pixels
         self.image.fill(WHITE)
+
+        # * Get Bounding rectangle of sprite
         self.rect = self.image.get_rect()
     
+        # * Get display dimensions
         self.display_width = pygame.display.get_surface().get_width()
         self.display_height = pygame.display.get_surface().get_height()
-        
+
+        # * Positional Coordinates 
         self.x = 0
         self.y = y_pos
         
+        # * Player Score
         self.score = 0
 
+        # * Set rectangle coordinates
         self.rect.x = self.x
         self.rect.y = self.y
-
+        
+        # * Player connected 
         self.connected = False
         
     def setX(self, x):
