@@ -3,7 +3,7 @@
 # * File Created: Friday, 22nd November 2019 5:08:27 pm
 # * Author: Alex Chomiak 
 # * 
-# * Last Modified: Friday, 22nd November 2019 9:09:50 pm
+# * Last Modified: Saturday, 23rd November 2019 5:31:29 pm
 # * Modified By: Alex Chomiak 
 # * 
 # * Author Github: https://github.com/alexchomiak
@@ -47,8 +47,8 @@ class Ball (pygame.sprite.Sprite) :
         self.center()
 
         # * Increase overall speed
-
         self.speed = min(self.speed * 1.1, 10.0)
+
         # * Calculate random direction
         angle = random.randint(-45,45)
         if(random.randint(0,10) % 2 == 0): angle = -angle

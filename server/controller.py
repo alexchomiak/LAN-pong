@@ -3,7 +3,7 @@
 # * File Created: Friday, 22nd November 2019 5:51:22 pm
 # * Author: Alex Chomiak 
 # * 
-# * Last Modified: Friday, 22nd November 2019 8:44:17 pm
+# * Last Modified: Saturday, 23rd November 2019 5:31:39 pm
 # * Modified By: Alex Chomiak 
 # * 
 # * Author Github: https://github.com/alexchomiak
@@ -57,9 +57,6 @@ class Controller(threading.Thread):
       # ! If data invalid, exit loop
       if not data:
         break
-
-      # * Log out player move
-      # print("Moving", self.player.name, int(data),"units.")
 
       # * Set player X coordinate based off increment
       self.player.setX(self.player.x + int(data))
