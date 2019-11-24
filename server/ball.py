@@ -3,7 +3,7 @@
 # * File Created: Friday, 22nd November 2019 5:08:27 pm
 # * Author: Alex Chomiak 
 # * 
-# * Last Modified: Saturday, 23rd November 2019 11:47:42 pm
+# * Last Modified: Saturday, 23rd November 2019 11:55:15 pm
 # * Modified By: Alex Chomiak 
 # * 
 # * Author Github: https://github.com/alexchomiak
@@ -52,7 +52,7 @@ class Ball (pygame.sprite.Sprite) :
         # * Calculate random direction
         angle = random.randint(-45,45)
         if(random.randint(0,10) % 2 == 0): 
-            angle = -angle
+            angle += 180
 
         # * Set direction
         self.direction = angle
@@ -70,7 +70,9 @@ class Ball (pygame.sprite.Sprite) :
         self.x += self.speed * (math.sin(math.radians(self.direction)))
         self.y -= self.speed * (math.cos(math.radians(self.direction)))
         
-   
+        if(abs(self.direction - 90) < 5  or abs(self.direction - 270) < 5):
+            self.direction = (sign(self.direction) * 20) + self.direction
+
         self.rect.x = self.x
         self.rect.y = self.y
         
