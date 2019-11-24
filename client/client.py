@@ -1,11 +1,5 @@
 # * ------
 # * File: /client.py
-# * File Created: Friday, 22nd November 2019 6:07:29 pm
-# * Author: Alex Chomiak
-# *
-# * Last Modified: Friday, 22nd November 2019 7:05:14 pm
-# * Modified By: Tyler Lyczak
-# *
 # * Author Github: https://github.com/alexchomiak
 # * ------
 
