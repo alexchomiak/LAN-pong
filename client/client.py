@@ -3,7 +3,7 @@
 # * File Created: Sunday, 24th November 2019 1:01:32 am
 # * Author: Alex Chomiak 
 # * 
-# * Last Modified: Sunday, 24th November 2019 1:17:43 am
+# * Last Modified: Sunday, 24th November 2019 2:39:15 am
 # * Modified By: Alex Chomiak 
 # * 
 # * Author Github: https://github.com/alexchomiak
@@ -67,7 +67,7 @@ def send_increment(val): # * Use this function to send increment to game
 
 # * Implement GPIO code here *******
 
-increment = 15
+increment = 20
 while(True):
   print("Connecting client...")
   print("Port:",port)
@@ -82,6 +82,7 @@ while(True):
   listener = Listener()
   listener.start()
   while(connected):
+    send_increment(0)
     buttonStateRight = GPIO.input(rightButton)
     buttonStateLeft = GPIO.input(leftButton)
     if buttonStateRight == False:

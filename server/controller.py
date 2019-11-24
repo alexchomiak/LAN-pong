@@ -1,13 +1,13 @@
-# * ------ 
+# * ------
 # * File: /controller.py
 # * File Created: Friday, 22nd November 2019 5:51:22 pm
-# * Author: Alex Chomiak 
-# * 
-# * Last Modified: Sunday, 24th November 2019 1:02:15 am
-# * Modified By: Alex Chomiak 
-# * 
+# * Author: Alex Chomiak
+# *
+# * Last Modified: Sunday, 24th November 2019 2:21:53 am
+# * Modified By: Alex Chomiak
+# *
 # * Author Github: https://github.com/alexchomiak
-# * ------ 
+# * ------
 
 import socket
 import threading
@@ -21,7 +21,7 @@ class Controller(threading.Thread):
 
     # * Set Controllers Player
     self.player = player
-    
+
     # * Set port of controller
     self.port = port
 
@@ -43,28 +43,31 @@ class Controller(threading.Thread):
 
       # * Wait for connection...
       conn, addr = self.sock.accept()
-      
+
       # * Print connection Established
       print("Connected", addr)
 
       # * Update that player is connect
       self.player.connected = True
+      connected = True
 
       # * Connection Loop
-      while(True):
-        # * Read incoming packets from client
-        data = conn.recv(1024)
+      while(connected):
+        try:
+            # * Read incoming packets from client
+            data = conn.recv(1024)
 
-        # ! If data invalid, exit loop
-        if not data:
-          break
+            # ! If data invalid, exit loop
+            if not data:
+              connected = False
 
-        # * Set player X coordinate based off increment
-        self.player.setX(self.player.x + int(data))
-      
-        # * Send back updated X coordinate to client      
-        conn.sendall(str(self.player.x).encode())
+            # * Set player X coordinate based off increment
+            self.player.setX(self.player.x + int(data))
 
-      
+            # * Send back updated X coordinate to client
+            conn.sendall(str(self.player.x).encode())
+        except:
+            print(f"{self.player.name}'s Connection Lost!")
+            connected = False
+      conn.close()
 
-    

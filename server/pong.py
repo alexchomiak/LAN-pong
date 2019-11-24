@@ -1,13 +1,13 @@
-# * ------ 
+# * ------
 # * File: /pong.py
 # * File Created: Friday, 22nd November 2019 5:16:31 pm
-# * Author: Alex Chomiak 
-# * 
-# * Last Modified: Sunday, 24th November 2019 1:05:06 am
-# * Modified By: Alex Chomiak 
-# * 
+# * Author: Alex Chomiak
+# *
+# * Last Modified: Sunday, 24th November 2019 2:41:34 am
+# * Modified By: Alex Chomiak
+# *
 # * Author Github: https://github.com/alexchomiak
-# * ------ 
+# * ------
 import pygame
 import random
 import math
@@ -20,7 +20,8 @@ import os
 pygame.init()
 
 # * Initialize game screen
-screen = pygame.display.set_mode((1920,1080) )#pygame.FULLSCREEN)
+screen = pygame.display.set_mode((1920,1080), pygame.FULLSCREEN)
+#screen = pygame.display.set_mode((720,480))
 
 # * Initialize background for screen
 background = pygame.Surface(screen.get_size())
@@ -35,7 +36,7 @@ font = pygame.font.Font(None, 36)
 clock = pygame.time.Clock()
 
 # * Make mouse invisible
-# pygame.mouse.set_visible(0)
+pygame.mouse.set_visible(0)
 
 
 
@@ -55,13 +56,13 @@ exit_program = False
 
 def update_display():
     global clock, pygame, exit_program
-        
+
     # * flip display buffer
     pygame.display.flip()
-    
-    # * 30fps frame refresh
-    clock.tick(30) 
-    
+
+    # * 60fps frame refresh
+    clock.tick(60)
+
     # * Event processing
     for event in pygame.event.get():
         # ! When user clicks X on window, exit program
@@ -95,7 +96,7 @@ def print_scores():
     screen.blit(text, textpos)
 
 # * This function counts down before the beginning of a game
-# * Announce game starting/restartnig in 5 seconds   
+# * Announce game starting/restartnig in 5 seconds
 def count_down(result_str, restarting = True):
 
     for i in range(0, 5):
@@ -112,12 +113,12 @@ def count_down(result_str, restarting = True):
         timepos = time.get_rect(centerx=background.get_width()/2)
         timepos.top = (background.get_height() / 2)
         screen.blit(time, timepos)
-        
+
         # * Update Display
         update_display()
-        
+
         # * Wait one second
-        clock.tick(1) 
+        clock.tick(1)
 
 # * This function resets the game, and scores
 # * It has a 10 second buffer between games
@@ -141,18 +142,18 @@ def reset_game():
     update_display()
 
     # * Wait 5 seconds
-    clock.tick(1.0 / 5.0) 
+    clock.tick(1.0 / 5.0)
 
     # * Reset score
     player1.score = 0
     player2.score = 0
-    
+
     # * Mark done as false
     done = False
 
     # * Trigger Count Down
     count_down(result_str)
-    
+
 
 
 
@@ -162,7 +163,7 @@ def start():
     global done, background, exit_program
     # * Trigger start countdown
     count_down("Welcome to PyPong!",False)
-    
+
     # * create game ball
     ball = Ball()
 
@@ -178,17 +179,17 @@ def start():
 
 
     # * Main event loop
-    while not exit_program:        
+    while not exit_program:
         # * If Either player 3 more than the other, end the game
         if abs(player1.score - player2.score) > 3:
             done = True # TODO Add way to restart game
-        
-        
+
+
         if not done: # * If game isnt finished, update Player and Ball positions
             # * If both players are connected, update ball position
             if not player1.connected and not player2.connected:
                 ball.center()
-             
+
             # * Update Player positions
             player1.update()
             player2.update()
@@ -196,26 +197,26 @@ def start():
         else:
             update_display()
             reset_game() # * Resets Game
-            
+
         # * See if the ball hits the player paddle
         if pygame.sprite.spritecollide(player1, balls, False):
             # * The 'diff' lets you try to bounce the ball left or right depending where on the paddle you hit it
             diff = (player1.rect.x + player1.width/2) - (ball.rect.x+ball.r/2)
-    
+
             #*  Set the ball's y position in case we hit the ball on the edge of the paddle
             ball.y += player1.rect.height
             ball.bounce(diff)
-        
+
 
         # * See if the ball hits the player paddle
         if pygame.sprite.spritecollide(player2, balls, False):
             # * The 'diff' lets you try to bounce the ball left or right depending where on the paddle you hit it
             diff = (player2.rect.x + player2.width/2) - (ball.rect.x+ball.r/2)
-    
+
             # * Set the ball's y position in case we hit the ball on the edge of the paddle
             ball.y -= player2.rect.height
             ball.bounce(diff)
-        
+
         # * Determine if player has scored, and update score accordingly
         if ball.y < 0:
             player2.score += 1
@@ -235,6 +236,3 @@ def start():
     screen.fill(BLACK) # * Fill Screen black
     pygame.quit() # * Close pygame window
     os._exit(0) # * Close all threads associated with process
-
-    
-
