@@ -3,7 +3,7 @@
 # * File Created: Friday, 22nd November 2019 5:16:31 pm
 # * Author: Alex Chomiak 
 # * 
-# * Last Modified: Saturday, 23rd November 2019 11:48:22 pm
+# * Last Modified: Sunday, 24th November 2019 1:05:06 am
 # * Modified By: Alex Chomiak 
 # * 
 # * Author Github: https://github.com/alexchomiak
@@ -20,7 +20,7 @@ import os
 pygame.init()
 
 # * Initialize game screen
-screen = pygame.display.set_mode((1920,1080), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((1920,1080) )#pygame.FULLSCREEN)
 
 # * Initialize background for screen
 background = pygame.Surface(screen.get_size())
