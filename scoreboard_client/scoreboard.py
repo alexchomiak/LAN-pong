@@ -3,21 +3,12 @@
 # * File Created: Sunday, 24th November 2019 1:01:32 am
 # * Author: Alex Chomiak 
 # * 
-# * Last Modified: Sunday, 24th November 2019 2:39:38 am
+# * Last Modified: Sunday, 24th November 2019 4:30:39 am
 # * Modified By: Alex Chomiak 
 # * 
 # * Author Github: https://github.com/alexchomiak
 # * ------ 
-# * ------
-# * File: /scoreboard.py
-# * File Created: Saturday, 23rd November 2019 5:29:52 pm
-# * Author: Alex Chomiak
-# *
-# * Last Modified: Saturday, 23rd November 2019 5:47:11 pm
-# * Modified By: Alex Chomiak
-# *
-# * Author Github: https://github.com/alexchomiak
-# * ------
+
 
 import sys
 import socket
