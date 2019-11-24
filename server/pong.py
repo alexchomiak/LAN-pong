@@ -3,7 +3,7 @@
 # * File Created: Friday, 22nd November 2019 5:16:31 pm
 # * Author: Alex Chomiak 
 # * 
-# * Last Modified: Friday, 22nd November 2019 10:14:17 pm
+# * Last Modified: Saturday, 23rd November 2019 11:48:22 pm
 # * Modified By: Alex Chomiak 
 # * 
 # * Author Github: https://github.com/alexchomiak
@@ -20,7 +20,7 @@ import os
 pygame.init()
 
 # * Initialize game screen
-screen = pygame.display.set_mode([800,600])
+screen = pygame.display.set_mode((1920,1080), pygame.FULLSCREEN)
 
 # * Initialize background for screen
 background = pygame.Surface(screen.get_size())
@@ -35,11 +35,17 @@ font = pygame.font.Font(None, 36)
 clock = pygame.time.Clock()
 
 # * Make mouse invisible
-pygame.mouse.set_visible(0)
+# pygame.mouse.set_visible(0)
+
+
+
+# *  Width Height Variables
+display_width = pygame.display.get_surface().get_width()
+display_height = pygame.display.get_surface().get_height()
 
 # * Initialize players
 player1 = Player(25, "Player 1")
-player2 = Player(580, "Player 2")
+player2 = Player(display_height - 50, "Player 2")
 
 
 # * Game Tracking Variables
@@ -61,6 +67,9 @@ def update_display():
         # ! When user clicks X on window, exit program
         if event.type == pygame.QUIT:
             exit_program = True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE or event.unicode == 'q':
+                exit_program = True
 
     # * Update display
     pygame.display.update()
@@ -82,7 +91,7 @@ def print_scores():
     # * Print the score for player 2
     scoreprint = "Player 2: "+str(player2.score)
     text = font.render(scoreprint, 1, WHITE)
-    textpos = (300, 0)
+    textpos = (display_width - 200, 0)
     screen.blit(text, textpos)
 
 # * This function counts down before the beginning of a game
@@ -134,8 +143,6 @@ def reset_game():
     # * Wait 5 seconds
     clock.tick(1.0 / 5.0) 
 
- 
-
     # * Reset score
     player1.score = 0
     player2.score = 0
@@ -173,7 +180,7 @@ def start():
     # * Main event loop
     while not exit_program:        
         # * If Either player 3 more than the other, end the game
-        if abs(player1.score - player2.score) > 1:
+        if abs(player1.score - player2.score) > 3:
             done = True # TODO Add way to restart game
         
         
@@ -213,7 +220,7 @@ def start():
         if ball.y < 0:
             player2.score += 1
             ball.reset()
-        elif ball.y > 600:
+        elif ball.y > display_height:
             player1.score += 1
             ball.reset()
 

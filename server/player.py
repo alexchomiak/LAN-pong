@@ -3,7 +3,7 @@
 # * File Created: Friday, 22nd November 2019 5:12:15 pm
 # * Author: Alex Chomiak 
 # * 
-# * Last Modified: Friday, 22nd November 2019 8:15:14 pm
+# * Last Modified: Saturday, 23rd November 2019 11:40:41 pm
 # * Modified By: Alex Chomiak 
 # * 
 # * Author Github: https://github.com/alexchomiak
@@ -21,8 +21,8 @@ class Player (pygame.sprite.Sprite):
         self.name = name
 
         # * Set dimensions of rectangle
-        self.width = 100
-        self.height = 20
+        self.width = 200
+        self.height = 25
 
         # * Initialize Surface Texture For Sprite
         self.image = pygame.Surface([self.width, self.height])
@@ -52,6 +52,7 @@ class Player (pygame.sprite.Sprite):
         self.connected = False
         
     def setX(self, x):
+        print(f"{self.display_width}px")
         if(x > self.display_width - self.width) :
             self.x = self.display_width - self.width
         elif (x < 0):
