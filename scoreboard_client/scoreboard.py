@@ -1,3 +1,13 @@
+# * ------ 
+# * File: /scoreboard.py
+# * File Created: Sunday, 24th November 2019 1:01:32 am
+# * Author: Alex Chomiak 
+# * 
+# * Last Modified: Sunday, 24th November 2019 1:21:01 am
+# * Modified By: Alex Chomiak 
+# * 
+# * Author Github: https://github.com/alexchomiak
+# * ------ 
 # * ------
 # * File: /scoreboard.py
 # * File Created: Saturday, 23rd November 2019 5:29:52 pm
@@ -33,13 +43,6 @@ lcd = LCD.Adafruit_CharLCD(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7,
 port = sys.argv[1]
 ip = sys.argv[2] if (len(sys.argv) > 2) else '127.0.0.1'
 
-print("Connecting client...")
-print("Port:",port)
-print("IP:", ip)
-
-scoreboard_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-scoreboard_socket.connect((ip,int(port)))
-
 # * State variables
 connected = True
 score = "0-0"
@@ -50,18 +53,23 @@ class Listener(threading.Thread):
   def run(self):
     global score
     while(True):
-      # * Get Data
-      data = scoreboard_socket.recv(1024)
+      try:
+        # * Get Data
+        data = scoreboard_socket.recv(1024)
 
-      # * If Invalid data, break listener loop
-      if not data:
+        # * If Invalid data, break listener loop
+        if not data:
+          break
+
+        # * Decode data string
+        score = data.decode('utf-8')
+      except:
+        print("Closing Connection")
+        scoreboard_socket.close()
+        connected = False
         break
 
-      # * Decode data string
-      score = data.decode('utf-8')
 
-
-    connected = False
 
 # * Initialize and start listener
 listener = Listener()
@@ -69,30 +77,48 @@ listener.start()
 
 def get_score(): # * Sends request to get score
   if not connected: score = "0-0"
-  else: scoreboard_socket.send(("x").encode()) # * Send arbitrary packet
-
+  else: 
+    try:
+      scoreboard_socket.send(("x").encode()) # * Send arbitrary packet
+    except:
+      print("Error retrieving score")
 oldScore = ""
-while(connected):
-  # * Score will be populated by Listener
-  get_score() # * Sends request for score from server
 
-  # * Checks if the new string sent from the server is different
-  if oldScore != score:
-    # * Gets the index of where the '-' is in the string sent by the server
-    index = score.find('-')
-    # * Makes new variables of the separate scores
-    p1Score, p2Score = score[:index], score[index+1:]
-    print("Player 1: " + p1Score)
-    print("Player 2: " + p2Score)
+while(True):
+  print("Connecting client...")
+  print("Port:",port)
+  print("IP:", ip)
+  try:
+    scoreboard_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    scoreboard_socket.connect((ip,int(port)))
+  except:
+    print("Connection Cannot Be Establisbed... Trying Again...")
+    time.sleep(5)
+    
+  # * State variables
+  connected = True
+  
+  while(connected):
+    # * Score will be populated by Listener
+    get_score() # * Sends request for score from server
 
-    # * Clears the screen
-    lcd.clear()
-    # * Prints Player 1's score to the screen
-    lcd.set_cursor(0,0)
-    lcd.message("Player 1: " + p1Score)
-    # * Prints Player 1's score to the screen
-    lcd.set_cursor(0,1)
-    lcd.message("Player 2: " + p2Score)
-    oldScore = score
+    # * Checks if the new string sent from the server is different
+    if oldScore != score:
+      # * Gets the index of where the '-' is in the string sent by the server
+      index = score.find('-')
+      # * Makes new variables of the separate scores
+      p1Score, p2Score = score[:index], score[index+1:]
+      print("Player 1: " + p1Score)
+      print("Player 2: " + p2Score)
 
-  time.sleep(.05)
+      # * Clears the screen
+      lcd.clear()
+      # * Prints Player 1's score to the screen
+      lcd.set_cursor(0,0)
+      lcd.message("Player 1: " + p1Score)
+      # * Prints Player 1's score to the screen
+      lcd.set_cursor(0,1)
+      lcd.message("Player 2: " + p2Score)
+      oldScore = score
+
+    time.sleep(.05)
