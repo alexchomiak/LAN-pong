@@ -22,7 +22,7 @@ You must use python version 3.7 if on MacOS Catalina to run this project, otherw
 Now make sure you are in the server directory and run the command:
 
 ```
-  python3 index.js
+  python3 index.py
 ```
 
 ## Setup Instructions (Client)
@@ -31,7 +31,7 @@ You must also use Python3 for the client.
 You can connect to the server by running this command in the Client directory:
 
 ```
-  python3 client.js <port> <ip>
+  python3 client.py <port> <ip>
 ```
 
 If no ip is provided, it will default to localhost.
